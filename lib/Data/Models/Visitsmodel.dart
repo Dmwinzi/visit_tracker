@@ -1,3 +1,5 @@
+import '../../Domain/Entities/VisitingEntity.dart';
+
 class VisitModel {
   final int id;
   final int customerId;
@@ -20,18 +22,28 @@ class VisitModel {
   });
 
   factory VisitModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> rawActivities = json['activities_done'] ?? [];
-    List<int> activities = rawActivities.map<int>((e) => int.parse(e)).toList();
+    final rawActivities = json['activities_done'] as List<dynamic>? ?? [];
+    final activities = rawActivities.map<int>((e) {
+      if (e is int) return e;
+      if (e is String) return int.tryParse(e) ?? 0;
+      return 0;
+    }).toList();
 
     return VisitModel(
-      id: json['id'] as int,
-      customerId: json['customer_id'] as int,
-      visitDate: DateTime.parse(json['visit_date'] as String),
-      status: json['status'] as String,
-      location: json['location'] as String,
-      notes: json['notes'] as String,
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      customerId: json['customer_id'] is int
+          ? json['customer_id']
+          : int.tryParse(json['customer_id']?.toString() ?? '') ?? 0,
+      visitDate: json['visit_date'] != null
+          ? DateTime.tryParse(json['visit_date'] as String) ?? DateTime.now()
+          : DateTime.now(),
+      status: json['status'] as String? ?? '',
+      location: json['location'] as String? ?? '',
+      notes: json['notes'] as String? ?? '',
       activitiesDone: activities,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: json['created_at'] != null
+          ? DateTime.tryParse(json['created_at'] as String) ?? DateTime.now()
+          : DateTime.now(),
     );
   }
 
@@ -47,4 +59,20 @@ class VisitModel {
       'created_at': createdAt.toIso8601String(),
     };
   }
+
+
+  VisitEntity toEntity() {
+    return VisitEntity(
+      id: id,
+      customerId: customerId,
+      visitDate: visitDate,
+      status: status,
+      location: location,
+      notes: notes,
+      activitiesDone: activitiesDone,
+      createdAt: createdAt,
+    );
+  }
+
+
 }

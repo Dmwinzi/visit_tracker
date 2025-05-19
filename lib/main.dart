@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:visits_tracker/DI/Locator.dart';
-import 'package:visits_tracker/Presentation/Homescreen.dart';
+import 'package:visits_tracker/Presentation/Screens/Homescreen.dart';
 
 import 'Presentation/Routing/Router.dart';
 

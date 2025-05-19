@@ -32,7 +32,7 @@ class VisitRepositoryImpl implements VisitRepository {
       return data.map((json) => VisitModel.fromJson(json)).toList();
     } on DioException catch (e) {
       throw handleDioError(e);
-    } catch (_) {
+    } catch (ex) {
       throw Exception('Failed to load visits.');
     }
   }
