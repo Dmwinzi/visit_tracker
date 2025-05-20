@@ -1,5 +1,5 @@
 class VisitEntity {
-  final int id;
+  final int? id;
   final int customerId;
   final DateTime visitDate;
   final String status;
@@ -9,7 +9,7 @@ class VisitEntity {
   final DateTime createdAt;
 
   VisitEntity({
-    required this.id,
+    this.id,
     required this.customerId,
     required this.visitDate,
     required this.status,

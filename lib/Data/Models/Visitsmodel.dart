@@ -1,7 +1,7 @@
 import '../../Domain/Entities/VisitingEntity.dart';
 
 class VisitModel {
-  final int id;
+  final int? id;
   final int customerId;
   final DateTime visitDate;
   final String status;
@@ -11,7 +11,7 @@ class VisitModel {
   final DateTime createdAt;
 
   VisitModel({
-    required this.id,
+    this.id,
     required this.customerId,
     required this.visitDate,
     required this.status,
@@ -30,7 +30,7 @@ class VisitModel {
     }).toList();
 
     return VisitModel(
-      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? ''),
       customerId: json['customer_id'] is int
           ? json['customer_id']
           : int.tryParse(json['customer_id']?.toString() ?? '') ?? 0,
@@ -48,22 +48,26 @@ class VisitModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
+    final map = {
       'customer_id': customerId,
       'visit_date': visitDate.toIso8601String(),
       'status': status,
       'location': location,
       'notes': notes,
-      'activities_done': activitiesDone.map((e) => e.toString()).toList(),
+      'activities_done': activitiesDone,
       'created_at': createdAt.toIso8601String(),
     };
-  }
 
+    if (id != null) {
+      map['id'] = id!;
+    }
+
+    return map;
+  }
 
   VisitEntity toEntity() {
     return VisitEntity(
-      id: id,
+      id: id ?? 0,
       customerId: customerId,
       visitDate: visitDate,
       status: status,
@@ -73,6 +77,4 @@ class VisitModel {
       createdAt: createdAt,
     );
   }
-
-
 }

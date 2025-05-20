@@ -40,7 +40,7 @@ class VisitUseCases {
 
   Future<void> addVisit(VisitEntity visit) async {
     final visitModel = VisitModel(
-      id: visit.id,
+      id: visit.id != 0 ? visit.id : null,
       customerId: visit.customerId,
       visitDate: visit.visitDate,
       status: visit.status,

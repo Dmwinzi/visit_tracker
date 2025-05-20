@@ -12,6 +12,7 @@ class VisitController extends GetxController {
 
   RxBool isLoading = false.obs;
   RxString errorMessage = ''.obs;
+  RxBool submitLoading = false.obs;
 
   RxList<CustomerEntity> customers = <CustomerEntity>[].obs;
   RxList<VisitEntity> visits = <VisitEntity>[].obs;
@@ -68,13 +69,13 @@ class VisitController extends GetxController {
 
   Future<void> submitVisit(VisitEntity visit) async {
     try {
-      isLoading.value = true;
+      submitLoading.value = true;
       await usecase.addVisit(visit);
       errorMessage.value = '';
     } catch (e) {
       errorMessage.value = e.toString();
     } finally {
-      isLoading.value = false;
+      submitLoading.value = false;
     }
   }
 

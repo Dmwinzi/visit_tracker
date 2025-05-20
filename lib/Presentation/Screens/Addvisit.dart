@@ -50,7 +50,6 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
   Future<void> _handleSubmit() async {
     if (_formKey.currentState!.validate()) {
       final visit = VisitEntity(
-        id: 0,
         customerId: int.parse(_customerIdController.text),
         visitDate: DateTime.parse(_visitDateController.text),
         location: _locationController.text,
@@ -62,6 +61,7 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
         createdAt: DateTime.now(),
       );
 
+      print(visit);
       await visitController.submitVisit(visit);
 
       if (visitController.errorMessage.isEmpty) {
@@ -78,7 +78,6 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
         _customerIdController.clear();
         setState(() => _status = 'Scheduled');
 
-        // Reset activity to first one if available
         if (visitController.activities.isNotEmpty) {
           visitController.selectedActivityId.value =
               visitController.activities.first.id;
@@ -190,7 +189,7 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
                   return SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: visitController.isLoading.value
+                      onPressed: visitController.submitLoading.value
                           ? null
                           : _handleSubmit,
                       style: ElevatedButton.styleFrom(
@@ -199,7 +198,7 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: visitController.isLoading.value
+                      child: visitController.submitLoading.value
                           ? const CircularProgressIndicator(color: Colors.white)
                           : const Text('Add Visit', style: TextStyle(color: Colors.white,fontSize: 18)),
                     ),
