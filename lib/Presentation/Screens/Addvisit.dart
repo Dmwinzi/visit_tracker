@@ -17,9 +17,8 @@ class _AddVisitScreenState extends State<AddVisitScreen> {
   final _visitDateController = TextEditingController();
   final _notesController = TextEditingController();
 
-  String _status = 'Scheduled';
+  String _status = 'Pending';
   final List<String> _statusOptions = [
-    'Scheduled',
     'Completed',
     'Pending',
     'Cancelled'
